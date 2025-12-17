@@ -19,60 +19,29 @@ function recolectarTransacciones() {
       // =========================
       // ID
       // =========================
-      while (true) {
         id = Number(prompt("Ingrese el ID de la transacción: "));
-        if (!Number.isInteger(id) || id <= 0) {
-          console.log("ID inválido.");
-          continue;
-        }
-        break;
-      }
+        
 
       // =========================
       // Cliente
       // =========================
-      while (true) {
         cliente = prompt("Ingrese el nombre del cliente: ").trim();
-        if (cliente === "") {
-          console.log("El nombre no puede estar vacío.");
-          continue;
-        }
-        break;
-      }
 
       // =========================
       // Tipo de transacción
       // =========================
-      while (true) {
-        tipo = prompt("Tipo (deposito | retiro | transferencia): ")
-          .trim()
-          .toLowerCase();
-        if (!["deposito", "retiro", "transferencia"].includes(tipo)) {
-          console.log("Tipo de transacción inválido.");
-          continue;
-        }
-        break;
-      }
+        tipo = prompt("Tipo (deposito | retiro | transferencia): ").trim().toLowerCase();
 
       // =========================
       // Monto
       // =========================
-      while (true) {
         monto = Number(prompt("Ingrese el monto: "));
-        if (isNaN(monto) || monto <= 0) {
-          console.log("Monto inválido.");
-          continue;
-        }
-        break;
-      }
 
       // =========================
       // Autorización
       // =========================
-      while (true) {
-        const resp = prompt("¿Transacción autorizada? (si/no): ")
-          .trim()
-          .toLowerCase();
+        while (true) {
+        const resp = prompt("¿Transacción autorizada? (si/no): ").trim().toLowerCase();
         if (resp !== "si" && resp !== "no") {
           console.log("Respuesta inválida.");
           continue;
@@ -89,10 +58,10 @@ function recolectarTransacciones() {
         autorizado,
       });
 
-      const continuar = prompt("¿Desea registrar otra transacción? (si/no): ")
-        .trim()
-        .toLowerCase();
-      if (continuar === "no") break;
+      const continuar = prompt("¿Desea registrar otra transacción? (si/no): ").trim().toLowerCase();
+      if (continuar === "no"){
+        break;
+      }
 
     } catch (error) {
       console.log("Error controlado:", error.message);
@@ -130,7 +99,7 @@ function cargarTransaccionesAsync(transacciones) {
  * @returns {string|null} Mensaje de error o null si es válida
  */
 function validarTransaccion(t) {
-  if (typeof t.id !== "number" || t.id <= 0)
+  if (!Number.isInteger(t.id) || t.id <= 0)
     return "ID inválido";
 
   if (typeof t.cliente !== "string" || t.cliente.trim() === "")
@@ -139,7 +108,7 @@ function validarTransaccion(t) {
   if (!["deposito", "retiro", "transferencia"].includes(t.tipo))
     return "Tipo inválido";
 
-  if (typeof t.monto !== "number" || t.monto <= 0)
+  if (!Number.isInteger(t.monto) || t.monto <= 0)
     return "Monto inválido";
 
   if (typeof t.autorizado !== "boolean")
@@ -186,13 +155,15 @@ function analizarTransacciones(transacciones, callback) {
 function calcularTotales(validas) {
   let totalDepositos = 0;
   let totalRetiros = 0;
+  let totalTransferencia = 0;
 
   for (const t of validas) {
     if (t.tipo === "deposito") totalDepositos += t.monto;
     if (t.tipo === "retiro") totalRetiros += t.monto;
+    if (t.tipo === "transferencia") totalTransferencia += t.monto;
   }
 
-  return { totalDepositos, totalRetiros };
+  return { totalDepositos, totalRetiros, totalTransferencia };
 }
 
 /* =========================================================
