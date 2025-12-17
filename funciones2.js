@@ -9,67 +9,67 @@ const prompt = promptSync();
  * Valida cada entrada antes de registrarla
  * @returns {Array<Object>} Arreglo de transacciones ingresadas
  */
-function recolectarTransacciones() {
-  const transacciones = [];
+  function recolectarTransacciones() {
+    const transacciones = [];
 
-  while (true) {
-    try {
-      let id, cliente, tipo, monto, autorizado;
+    while (true) {
+      try {
+        let id, cliente, tipo, monto, autorizado;
 
-      // =========================
-      // ID
-      // =========================
+        // =========================
+        // ID
+        // =========================
         id = Number(prompt("Ingrese el ID de la transacción: "));
         
 
-      // =========================
-      // Cliente
-      // =========================
+        // =========================
+        // Cliente
+        // =========================
         cliente = prompt("Ingrese el nombre del cliente: ").trim();
 
-      // =========================
-      // Tipo de transacción
-      // =========================
+        // =========================
+        // Tipo de transacción
+        // =========================
         tipo = prompt("Tipo (deposito | retiro | transferencia): ").trim().toLowerCase();
 
-      // =========================
-      // Monto
-      // =========================
+        // =========================
+        // Monto
+        // =========================
         monto = Number(prompt("Ingrese el monto: "));
 
-      // =========================
-      // Autorización
-      // =========================
+        // =========================
+        // Autorización
+        // =========================
         while (true) {
-        const resp = prompt("¿Transacción autorizada? (si/no): ").trim().toLowerCase();
-        if (resp !== "si" && resp !== "no") {
-          console.log("Respuesta inválida.");
-          continue;
+          const resp = prompt("¿Transacción autorizada? (si/no): ").trim().toLowerCase();
+          if (resp !== "si" && resp !== "no") {
+            console.log("Respuesta inválida."); 
+            continue;
+          }
+          autorizado = resp === "si";
+          break;
         }
-        autorizado = resp === "si";
-        break;
+
+        transacciones.push({
+          id,
+          cliente,
+          tipo,
+          monto,
+          autorizado,
+       });
+
+        const continuar = prompt("¿Desea registrar otra transacción? (si/no): ").trim().toLowerCase();
+        if (continuar === "no"){
+          break;
+        }
+
+      } catch (error) {
+        console.log("Error controlado:", error.message);
       }
-
-      transacciones.push({
-        id,
-        cliente,
-        tipo,
-        monto,
-        autorizado,
-      });
-
-      const continuar = prompt("¿Desea registrar otra transacción? (si/no): ").trim().toLowerCase();
-      if (continuar === "no"){
-        break;
-      }
-
-    } catch (error) {
-      console.log("Error controlado:", error.message);
     }
-  }
 
-  return transacciones;
-}
+    return transacciones;
+  }
 
 /* =========================================================
    FUNCIÓN: CARGA ASÍNCRONA DE TRANSACCIONES

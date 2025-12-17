@@ -31,8 +31,7 @@ async function ejecutarEjercicio2() {
 
       if (rechazadas.length > 0) {
         console.log("\nDetalle de transacciones rechazadas:");
-        rechazadas.forEach(t =>
-          console.log(`ID ${t.id}: ${t.motivo}`)
+        rechazadas.forEach(t => console.log(`ID ${t.id}: ${t.motivo}`)
         );
       }
 
@@ -44,7 +43,7 @@ async function ejecutarEjercicio2() {
       console.log("Total en retiros:", totales.totalRetiros);
       console.log("Total en transferencias:", totales.totalTransferencia);
 
-      console.log("\nEjercicio 2 ejecutado correctamente.");
+      console.log("\nEjercicio 2 ejecutado correctamente.\n");
     });
 
   } catch (error) {
