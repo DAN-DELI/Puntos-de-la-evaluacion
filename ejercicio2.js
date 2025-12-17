@@ -52,4 +52,5 @@ async function ejecutarEjercicio2() {
   }
 }
 
+// Llamar a la función principal para ejecutar el ejercicio
 ejecutarEjercicio2();
